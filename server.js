@@ -78,9 +78,11 @@ async function requireAuth(req, res, next) {
   }
 }
 
-// Apply auth to all routes
+// Apply auth to API routes only
 app.use('/api', requireAuth);
-app.use('/', requireAuth, express.static('public'));
+
+// Serve static files without auth (auth handled in JS)
+app.use('/', express.static('public'));
 
 // ============================================================================
 // API Routes - App Proxies
