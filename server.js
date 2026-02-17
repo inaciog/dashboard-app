@@ -49,10 +49,10 @@ async function requireAuth(req, res, next) {
     if (req.path.startsWith('/api/')) {
       return res.status(401).json({ 
         error: 'Not authenticated',
-        loginUrl: `${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(`https://dashboard-app.fly.dev${req.originalUrl}`)}`
+        loginUrl: `${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(`https://inacio-dashboard.fly.dev${req.originalUrl}`)}`
       });
     }
-    return res.redirect(`${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(`https://dashboard-app.fly.dev${req.originalUrl}`)}`);
+    return res.redirect(`${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(`https://inacio-dashboard.fly.dev${req.originalUrl}`)}`);
   }
   
   try {
@@ -69,7 +69,10 @@ async function requireAuth(req, res, next) {
     next();
   } catch (err) {
     if (req.path.startsWith('/api/')) {
-      return res.status(401).json({ error: 'Not authenticated' });
+      return res.status(401).json({ 
+        error: 'Not authenticated',
+        loginUrl: `${AUTH_SERVICE}/login`
+      });
     }
     return res.redirect(`${AUTH_SERVICE}/login`);
   }
