@@ -1,27 +1,20 @@
 /**
- * Dashboard App - Unified interface for all personal tools
+ * Dashboard App - Simplified Auth
  * 
- * Aggregates data from multiple apps:
- * - Reminders (panel: list, quick-add)
- * - Future: ClassQuizzes, Notes, Calendar, etc.
- * 
- * Each panel is independent and communicates via APIs.
- * 
- * @author Inacio Bo
+ * Token passed via URL only. No cookies, no localStorage.
  */
 
 const express = require('express');
-const cookieParser = require('cookie-parser');
-const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Config
-const AUTH_SERVICE = process.env.AUTH_SERVICE || 'https://inacio-auth.fly.dev';
-const COOKIE_NAME = 'auth_session';
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const AUTH_SERVICE = 'https://inacio-auth.fly.dev';
 
-// App registry - easy to add new apps
+// App registry
 const APPS = {
   reminders: {
     name: 'Reminders',
@@ -29,79 +22,53 @@ const APPS = {
     apiSecret: process.env.REMINDERS_API_SECRET || 'assistant-secret-key',
     icon: '✅',
     color: '#007AFF'
-  },
-  // Future apps:
-  // classquizzes: { name: 'ClassQuizzes', url: '...', icon: '📝', color: '#...' },
-  // notes: { name: 'Notes', url: '...', icon: '📓', color: '#...' },
-  // calendar: { name: 'Calendar', url: '...', icon: '📅', color: '#...' },
+  }
 };
 
-// Middleware
 app.use(express.json());
-app.use(cookieParser());
 app.use(express.static('public'));
 
-// Auth middleware
-async function requireAuth(req, res, next) {
-  const token = req.cookies[COOKIE_NAME] || req.headers.authorization?.replace('Bearer ', '');
+// Auth middleware - check token from query or header
+function checkAuth(req, res, next) {
+  const token = req.query.token || req.headers.authorization?.replace('Bearer ', '');
   
   if (!token) {
-    if (req.path.startsWith('/api/')) {
-      return res.status(401).json({ 
-        error: 'Not authenticated',
-        loginUrl: `${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(`https://inacio-dashboard.fly.dev${req.originalUrl}`)}`
-      });
-    }
-    return res.redirect(`${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(`https://inacio-dashboard.fly.dev${req.originalUrl}`)}`);
+    // Redirect to login with return URL
+    const currentUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+    return res.redirect(`${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(currentUrl)}`);
   }
   
   try {
-    const fetch = (await import('node-fetch')).default;
-    const response = await fetch(`${AUTH_SERVICE}/api/verify`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    
-    if (!response.ok) throw new Error('Invalid token');
-    
-    const data = await response.json();
-    req.user = data.user;
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
     req.token = token;
     next();
   } catch (err) {
-    if (req.path.startsWith('/api/')) {
-      return res.status(401).json({ 
-        error: 'Not authenticated',
-        loginUrl: `${AUTH_SERVICE}/login`
-      });
-    }
-    return res.redirect(`${AUTH_SERVICE}/login`);
+    const currentUrl = `${req.protocol}://${req.get('host')}${req.path}`;
+    return res.redirect(`${AUTH_SERVICE}/login?returnTo=${encodeURIComponent(currentUrl)}`);
   }
 }
 
-// Apply auth to API routes only
-app.use('/api', requireAuth);
-
-// Serve static files without auth (auth handled in JS)
-app.use('/', express.static('public'));
+// API routes require auth
+app.use('/api', checkAuth);
 
 // ============================================================================
-// API Routes - App Proxies
+// API Routes
 // ============================================================================
 
-// Get data from all apps (for dashboard overview)
 app.get('/api/overview', async (req, res) => {
-  const overview = {
-    apps: {},
-    timestamp: Date.now()
-  };
+  const overview = { apps: {}, timestamp: Date.now() };
   
-  // Fetch from Reminders
   try {
     const fetch = (await import('node-fetch')).default;
-    const remindersRes = await fetch(`${APPS.reminders.url}/api/external/reminders?secret=${APPS.reminders.apiSecret}&today=true`);
+    const remindersRes = await fetch(
+      `${APPS.reminders.url}/api/external/reminders?secret=${APPS.reminders.apiSecret}&today=true`
+    );
     const remindersData = await remindersRes.json();
     
-    const statsRes = await fetch(`${APPS.reminders.url}/api/external/stats?secret=${APPS.reminders.apiSecret}`);
+    const statsRes = await fetch(
+      `${APPS.reminders.url}/api/external/stats?secret=${APPS.reminders.apiSecret}`
+    );
     const statsData = await statsRes.json();
     
     overview.apps.reminders = {
@@ -113,7 +80,7 @@ app.get('/api/overview', async (req, res) => {
       incomplete: statsData.stats?.incomplete || 0,
       overdue: statsData.stats?.overdue || 0,
       highPriority: statsData.stats?.highPriority || 0,
-      items: remindersData.reminders?.slice(0, 5) || [] // Top 5 for today
+      items: remindersData.reminders?.slice(0, 5) || []
     };
   } catch (err) {
     console.error('Failed to fetch reminders:', err);
@@ -123,28 +90,6 @@ app.get('/api/overview', async (req, res) => {
   res.json(overview);
 });
 
-// Proxy: Get reminders (with filters)
-app.get('/api/reminders', async (req, res) => {
-  try {
-    const fetch = (await import('node-fetch')).default;
-    const { folder, completed, today, tag, search } = req.query;
-    
-    let url = `${APPS.reminders.url}/api/external/reminders?secret=${APPS.reminders.apiSecret}`;
-    if (folder) url += `&folder=${encodeURIComponent(folder)}`;
-    if (completed !== undefined) url += `&completed=${completed}`;
-    if (today) url += `&today=true`;
-    if (tag) url += `&tag=${encodeURIComponent(tag)}`;
-    if (search) url += `&search=${encodeURIComponent(search)}`;
-    
-    const response = await fetch(url);
-    const data = await response.json();
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch reminders' });
-  }
-});
-
-// Proxy: Create reminder (quick add)
 app.post('/api/reminders', async (req, res) => {
   try {
     const fetch = (await import('node-fetch')).default;
@@ -168,14 +113,15 @@ app.post('/api/reminders', async (req, res) => {
   }
 });
 
-// Proxy: Complete reminder
 app.post('/api/reminders/:id/complete', async (req, res) => {
   try {
     const fetch = (await import('node-fetch')).default;
     const { id } = req.params;
     
-    // First get the reminder to check current state
-    const getRes = await fetch(`${APPS.reminders.url}/api/external/reminders?secret=${APPS.reminders.apiSecret}`);
+    // Get current state
+    const getRes = await fetch(
+      `${APPS.reminders.url}/api/external/reminders?secret=${APPS.reminders.apiSecret}`
+    );
     const data = await getRes.json();
     const reminder = data.reminders?.find(r => r.id === id);
     
@@ -183,7 +129,7 @@ app.post('/api/reminders/:id/complete', async (req, res) => {
       return res.status(404).json({ error: 'Reminder not found' });
     }
     
-    // Toggle completion via bulk API
+    // Toggle via bulk API
     const response = await fetch(`${APPS.reminders.url}/api/external/bulk`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -202,7 +148,7 @@ app.post('/api/reminders/:id/complete', async (req, res) => {
 });
 
 // ============================================================================
-// Start Server
+// Start
 // ============================================================================
 
 app.listen(PORT, '0.0.0.0', () => {

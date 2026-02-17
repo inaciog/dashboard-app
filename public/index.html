@@ -12,69 +12,31 @@
       --bg-tertiary: #2c2c2e;
       --text-primary: #ffffff;
       --text-secondary: #8e8e93;
-      --text-tertiary: #636366;
       --accent-blue: #0a84ff;
       --accent-green: #30d158;
       --accent-orange: #ff9f0a;
       --accent-red: #ff453a;
-      --accent-purple: #bf5af2;
       --separator: #38383a;
-      --radius-sm: 8px;
-      --radius-md: 10px;
-      --radius-lg: 12px;
-      --radius-xl: 16px;
     }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-primary);
       color: var(--text-primary);
+      height: 100vh;
       overflow: hidden;
     }
-
-    .app {
-      display: flex;
-      height: 100%;
-    }
-
-    /* Sidebar */
+    .app { display: flex; height: 100%; }
     .sidebar {
       width: 260px;
       background: var(--bg-secondary);
       border-right: 1px solid var(--separator);
-      display: flex;
-      flex-direction: column;
       padding: 20px 0;
     }
-
-    .sidebar-header {
-      padding: 0 20px 20px;
-    }
-
-    .sidebar-title {
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .sidebar-subtitle {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-
-    .nav-section {
-      padding: 0 12px;
-      margin-top: 8px;
-    }
-
+    .sidebar-header { padding: 0 20px 20px; }
+    .sidebar-title { font-size: 24px; font-weight: 700; }
+    .sidebar-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+    .nav-section { padding: 0 12px; margin-top: 8px; }
     .nav-title {
       font-size: 11px;
       text-transform: uppercase;
@@ -83,42 +45,26 @@
       letter-spacing: 0.5px;
       padding: 8px 12px;
     }
-
     .nav-item {
       display: flex;
       align-items: center;
       padding: 10px 12px;
-      border-radius: var(--radius-md);
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.15s;
       margin-bottom: 2px;
     }
-
-    .nav-item:hover {
-      background: var(--bg-tertiary);
-    }
-
-    .nav-item.active {
-      background: var(--bg-tertiary);
-    }
-
+    .nav-item:hover { background: var(--bg-tertiary); }
     .nav-icon {
       width: 28px;
       height: 28px;
-      border-radius: var(--radius-sm);
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       margin-right: 12px;
     }
-
-    .nav-name {
-      flex: 1;
-      font-size: 15px;
-      font-weight: 500;
-    }
-
+    .nav-name { flex: 1; font-size: 15px; font-weight: 500; }
     .nav-badge {
       font-size: 13px;
       color: var(--text-secondary);
@@ -127,51 +73,17 @@
       padding: 2px 8px;
       border-radius: 10px;
     }
-
-    /* Main Content */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .main-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--separator);
-    }
-
-    .header-title {
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    .header-date {
-      font-size: 15px;
-      color: var(--text-secondary);
-      margin-top: 4px;
-    }
-
-    /* Dashboard Grid */
-    .dashboard {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 20px;
-      align-content: start;
-    }
-
-    /* Panel */
+    .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .main-header { padding: 20px 24px; border-bottom: 1px solid var(--separator); }
+    .header-title { font-size: 28px; font-weight: 700; }
+    .header-date { font-size: 15px; color: var(--text-secondary); margin-top: 4px; }
+    .dashboard { flex: 1; overflow-y: auto; padding: 24px; }
     .panel {
       background: var(--bg-secondary);
-      border-radius: var(--radius-xl);
+      border-radius: 16px;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      max-width: 600px;
     }
-
     .panel-header {
       padding: 16px 20px;
       border-bottom: 1px solid var(--separator);
@@ -179,132 +91,76 @@
       align-items: center;
       justify-content: space-between;
     }
-
-    .panel-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 17px;
-      font-weight: 600;
-    }
-
+    .panel-title { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 600; }
     .panel-icon {
       width: 32px;
       height: 32px;
-      border-radius: var(--radius-md);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 16px;
     }
-
-    .panel-actions {
-      display: flex;
-      gap: 8px;
-    }
-
     .panel-btn {
       padding: 6px 12px;
       background: var(--bg-tertiary);
       border: none;
-      border-radius: var(--radius-md);
+      border-radius: 8px;
       color: var(--accent-blue);
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
     }
-
-    .panel-content {
-      flex: 1;
-      overflow-y: auto;
-      max-height: 400px;
-    }
-
-    /* Quick Add */
-    .quick-add {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--separator);
-      display: flex;
-      gap: 8px;
-    }
-
-    .quick-input {
-      flex: 1;
-      background: var(--bg-tertiary);
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      font-size: 15px;
-      color: var(--text-primary);
-      outline: none;
-    }
-
-    .quick-input::placeholder {
-      color: var(--text-secondary);
-    }
-
-    .quick-submit {
-      padding: 10px 16px;
-      background: var(--accent-blue);
-      border: none;
-      border-radius: var(--radius-md);
-      color: white;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    /* Stats Row */
     .stats-row {
       display: flex;
       gap: 16px;
       padding: 16px 20px;
       border-bottom: 1px solid var(--separator);
     }
-
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .stat-value {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
+    .stat-item { display: flex; flex-direction: column; gap: 4px; }
+    .stat-value { font-size: 20px; font-weight: 700; }
     .stat-value.overdue { color: var(--accent-red); }
     .stat-value.today { color: var(--accent-orange); }
-    .stat-value.high { color: var(--accent-red); }
-
-    .stat-label {
-      font-size: 11px;
-      color: var(--text-secondary);
-      text-transform: uppercase;
+    .stat-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; }
+    .quick-add {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--separator);
+      display: flex;
+      gap: 8px;
     }
-
-    /* List Items */
+    .quick-input {
+      flex: 1;
+      background: var(--bg-tertiary);
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 15px;
+      color: var(--text-primary);
+      outline: none;
+    }
+    .quick-submit {
+      padding: 10px 16px;
+      background: var(--accent-blue);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .panel-content { max-height: 300px; overflow-y: auto; }
     .list-item {
       display: flex;
       align-items: center;
       padding: 12px 16px;
       border-bottom: 1px solid var(--separator);
       cursor: pointer;
-      transition: background 0.15s;
     }
-
-    .list-item:hover {
-      background: var(--bg-tertiary);
-    }
-
-    .list-item:last-child {
-      border-bottom: none;
-    }
-
+    .list-item:hover { background: var(--bg-tertiary); }
     .checkbox {
       width: 20px;
       height: 20px;
-      border: 2px solid var(--text-tertiary);
+      border: 2px solid var(--text-secondary);
       border-radius: 50%;
       margin-right: 12px;
       cursor: pointer;
@@ -313,23 +169,16 @@
       justify-content: center;
       flex-shrink: 0;
     }
-
     .checkbox.checked {
       background: var(--accent-blue);
       border-color: var(--accent-blue);
     }
-
     .checkbox.checked::after {
       content: '✓';
       color: white;
       font-size: 11px;
     }
-
-    .item-content {
-      flex: 1;
-      min-width: 0;
-    }
-
+    .item-content { flex: 1; min-width: 0; }
     .item-title {
       font-size: 15px;
       font-weight: 500;
@@ -337,339 +186,185 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
     .item-title.completed {
       text-decoration: line-through;
       color: var(--text-secondary);
     }
-
-    .item-meta {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
-
-    .item-priority {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-left: 8px;
-      flex-shrink: 0;
-    }
-
-    .priority-high { background: var(--accent-red); }
-    .priority-normal { background: var(--accent-orange); }
-    .priority-low { background: var(--accent-blue); }
-
-    /* Empty State */
     .empty-state {
       text-align: center;
       padding: 40px 20px;
       color: var(--text-secondary);
     }
-
-    .empty-icon {
-      font-size: 40px;
-      margin-bottom: 12px;
-      opacity: 0.5;
-    }
-
-    .empty-text {
-      font-size: 15px;
-    }
-
-    /* Loading */
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: var(--text-secondary);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .sidebar {
-        display: none;
-      }
-      
-      .dashboard {
-        grid-template-columns: 1fr;
-        padding: 16px;
-      }
-    }
+    .loading { text-align: center; padding: 40px; color: var(--text-secondary); }
   </style>
 </head>
 <body>
-  <script>
-    // Check for token in URL or localStorage before app loads
-    (function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlToken = urlParams.get('token');
-      const storedToken = localStorage.getItem('auth_token');
-      
-      // If token in URL, store it
-      if (urlToken) {
-        localStorage.setItem('auth_token', urlToken);
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
-      
-      window.AUTH_TOKEN = urlToken || storedToken;
-    })();
-  </script>
-
-  <div class="app" id="app">
-    <!-- Login Screen -->
-    <div id="login-screen" style="display: none; position: fixed; inset: 0; background: var(--bg-primary); z-index: 1000; display: flex; align-items: center; justify-content: center;">
-      <div style="text-align: center; padding: 40px;">
-        <div style="font-size: 48px; margin-bottom: 20px;">📊</div>
-        <h1 style="font-size: 28px; margin-bottom: 10px;">Dashboard</h1>
-        <p style="color: var(--text-secondary); margin-bottom: 30px;">Your personal tools in one place</p>
-        <button onclick="redirectToAuth()" style="padding: 14px 32px; background: var(--accent-blue); border: none; border-radius: var(--radius-md); color: white; font-size: 16px; font-weight: 600; cursor: pointer;">Sign In</button>
-      </div>
-    </div>
-
-    <!-- Main App -->
-    <div id="main-app" style="display: none; width: 100%; height: 100%;">
-    <!-- Sidebar -->
+  <div class="app">
     <aside class="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-title">Dashboard</div>
         <div class="sidebar-subtitle">All your tools in one place</div>
       </div>
-      
-      <div class="nav-section">
-        <div class="nav-title">Overview</div>
-        <div class="nav-item active" onclick="showPanel('dashboard')">
-          <div class="nav-icon" style="background: #5856D6;">📊</div>
-          <span class="nav-name">Dashboard</span>
-        </div>
-      </div>
-      
       <div class="nav-section">
         <div class="nav-title">Apps</div>
-        <div class="nav-item" onclick="openApp('reminders')">
+        <a class="nav-item" href="https://reminders-app.fly.dev" id="reminders-link">
           <div class="nav-icon" style="background: #007AFF;">✅</div>
           <span class="nav-name">Reminders</span>
-          <span class="nav-badge" id="nav-reminders-count">0</span>
-        </div>
+          <span class="nav-badge" id="reminders-count">0</span>
+        </a>
       </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main">
       <div class="main-header">
         <h1 class="header-title">Dashboard</h1>
         <div class="header-date" id="current-date"></div>
       </div>
       
-      <div class="dashboard" id="dashboard">
-        <!-- Reminders Panel -->
-        <div class="panel" id="reminders-panel">
+      <div class="dashboard">
+        <div class="panel">
           <div class="panel-header">
             <div class="panel-title">
               <div class="panel-icon" style="background: #007AFF;">✅</div>
               Reminders
             </div>
-            <div class="panel-actions">
-              <button class="panel-btn" onclick="openApp('reminders')">Open App →</button>
-            </div>
+            <a class="panel-btn" href="https://reminders-app.fly.dev" id="reminders-open-link">Open App →</a>
           </div>
           
           <div class="stats-row">
             <div class="stat-item">
-              <span class="stat-value" id="reminders-total">0</span>
+              <span class="stat-value" id="stat-total">0</span>
               <span class="stat-label">Total</span>
             </div>
             <div class="stat-item">
-              <span class="stat-value today" id="reminders-today">0</span>
+              <span class="stat-value today" id="stat-today">0</span>
               <span class="stat-label">Today</span>
             </div>
             <div class="stat-item">
-              <span class="stat-value overdue" id="reminders-overdue">0</span>
+              <span class="stat-value overdue" id="stat-overdue">0</span>
               <span class="stat-label">Overdue</span>
             </div>
             <div class="stat-item">
-              <span class="stat-value high" id="reminders-high">0</span>
+              <span class="stat-value" id="stat-high">0</span>
               <span class="stat-label">High Priority</span>
             </div>
           </div>
           
           <div class="quick-add">
-            <input 
-              type="text" 
-              class="quick-input" 
-              id="reminder-input"
-              placeholder="Add a quick reminder..."
-              onkeypress="if(event.key==='Enter') addReminder()"
-            >
+            <input type="text" class="quick-input" id="quick-input" placeholder="Add a quick reminder..." onkeypress="if(event.key==='Enter') addReminder()">
             <button class="quick-submit" onclick="addReminder()">Add</button>
           </div>
           
           <div class="panel-content" id="reminders-list">
-            <div class="loading">Loading reminders...</div>
+            <div class="loading">Loading...</div>
           </div>
         </div>
-        
-        <!-- Future panels will be added here -->
-        
       </div>
     </main>
   </div>
-  </div>
 
   <script>
-    // Set current date
+    // Get token from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const TOKEN = urlParams.get('token');
+    
+    // Update all links with token
+    if (TOKEN) {
+      document.getElementById('reminders-link').href = 'https://reminders-app.fly.dev?token=' + encodeURIComponent(TOKEN);
+      document.getElementById('reminders-open-link').href = 'https://reminders-app.fly.dev?token=' + encodeURIComponent(TOKEN);
+    }
+    
+    // Set date
     document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
 
-    // Helper to get auth headers
-    function authHeaders() {
-      const headers = {};
-      if (window.AUTH_TOKEN) {
-        headers['Authorization'] = `Bearer ${window.AUTH_TOKEN}`;
+    // Load data
+    async function loadData() {
+      if (!TOKEN) {
+        document.getElementById('reminders-list').innerHTML = '<div class="empty-state"><a href="https://inacio-auth.fly.dev/login?returnTo=' + encodeURIComponent(window.location.href) + '" style="color: var(--accent-blue);">Click here to login</a></div>';
+        return;
       }
-      return headers;
-    }
-
-    // Load dashboard data
-    async function loadDashboard() {
+      
       try {
-        const res = await fetch('/api/overview', {
-          credentials: 'include',
-          headers: authHeaders()
-        });
-        
-        if (res.status === 401) {
-          // Redirect to auth with return URL
-          const currentUrl = encodeURIComponent(window.location.href);
-          window.location.href = `https://inacio-auth.fly.dev/login?returnTo=${currentUrl}`;
-          return;
-        }
-        
+        const res = await fetch('/api/overview?token=' + encodeURIComponent(TOKEN));
         if (!res.ok) throw new Error('Failed to load');
         
         const data = await res.json();
-        renderRemindersPanel(data.apps.reminders);
+        renderReminders(data.apps.reminders);
       } catch (err) {
-        console.error('Failed to load dashboard:', err);
-        document.getElementById('reminders-list').innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">⚠️</div>
-            <div class="empty-text">Failed to load data</div>
-          </div>
-        `;
+        console.error('Failed to load:', err);
+        document.getElementById('reminders-list').innerHTML = '<div class="empty-state">Failed to load data</div>';
       }
     }
 
-    // Render reminders panel
-    function renderRemindersPanel(remindersData) {
+    function renderReminders(remindersData) {
       if (!remindersData || remindersData.error) {
-        document.getElementById('reminders-list').innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">⚠️</div>
-            <div class="empty-text">Failed to load reminders</div>
-          </div>
-        `;
+        document.getElementById('reminders-list').innerHTML = '<div class="empty-state">Failed to load reminders</div>';
         return;
       }
 
-      // Update stats
-      document.getElementById('reminders-total').textContent = remindersData.total || 0;
-      document.getElementById('reminders-today').textContent = remindersData.todayCount || 0;
-      document.getElementById('reminders-overdue').textContent = remindersData.overdue || 0;
-      document.getElementById('reminders-high').textContent = remindersData.highPriority || 0;
-      document.getElementById('nav-reminders-count').textContent = remindersData.incomplete || 0;
+      document.getElementById('stat-total').textContent = remindersData.total || 0;
+      document.getElementById('stat-today').textContent = remindersData.todayCount || 0;
+      document.getElementById('stat-overdue').textContent = remindersData.overdue || 0;
+      document.getElementById('stat-high').textContent = remindersData.highPriority || 0;
+      document.getElementById('reminders-count').textContent = remindersData.incomplete || 0;
 
-      // Render list
       const items = remindersData.items || [];
       const container = document.getElementById('reminders-list');
       
       if (items.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">✅</div>
-            <div class="empty-text">No reminders for today</div>
-          </div>
-        `;
+        container.innerHTML = '<div class="empty-state">No reminders for today</div>';
         return;
       }
 
       container.innerHTML = items.map(item => `
-        <div class="list-item" onclick="toggleReminder('${item.id}', ${!item.completed})">
+        <div class="list-item" onclick="toggleReminder('${item.id}')">
           <div class="checkbox ${item.completed ? 'checked' : ''}"></div>
           <div class="item-content">
             <div class="item-title ${item.completed ? 'completed' : ''}">${escapeHtml(item.title)}</div>
-            ${item.notes ? `<div class="item-meta">${escapeHtml(item.notes.substring(0, 50))}</div>` : ''}
           </div>
-          <div class="item-priority priority-${item.priority || 'normal'}"></div>
         </div>
       `).join('');
     }
 
-    // Add reminder
     async function addReminder() {
-      const input = document.getElementById('reminder-input');
+      if (!TOKEN) return;
+      
+      const input = document.getElementById('quick-input');
       const title = input.value.trim();
       if (!title) return;
 
       try {
-        const res = await fetch('/api/reminders', {
+        const res = await fetch('/api/reminders?token=' + encodeURIComponent(TOKEN), {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            ...authHeaders()
-          },
-          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ title })
         });
 
         if (res.ok) {
           input.value = '';
-          loadDashboard(); // Refresh
+          loadData();
         }
       } catch (err) {
-        console.error('Failed to add reminder:', err);
-        alert('Failed to add reminder');
+        console.error('Failed to add:', err);
       }
     }
 
-    // Toggle reminder completion
-    async function toggleReminder(id, completed) {
+    async function toggleReminder(id) {
+      if (!TOKEN) return;
+      
       try {
-        const res = await fetch(`/api/reminders/${id}/complete`, {
-          method: 'POST',
-          headers: authHeaders(),
-          credentials: 'include'
+        const res = await fetch(`/api/reminders/${id}/complete?token=${encodeURIComponent(TOKEN)}`, {
+          method: 'POST'
         });
 
-        if (res.ok) {
-          loadDashboard(); // Refresh
-        }
+        if (res.ok) loadData();
       } catch (err) {
-        console.error('Failed to update reminder:', err);
+        console.error('Failed to toggle:', err);
       }
     }
 
-    // Open full app
-    function openApp(appName) {
-      const urls = {
-        reminders: 'https://reminders-app.fly.dev'
-      };
-      if (urls[appName]) {
-        window.open(urls[appName], '_blank');
-      }
-    }
-
-    // Show panel (for future navigation)
-    function showPanel(panel) {
-      // Currently only dashboard is implemented
-      console.log('Show panel:', panel);
-    }
-
-    // Helper
     function escapeHtml(text) {
       if (!text) return '';
       const div = document.createElement('div');
@@ -677,33 +372,8 @@
       return div.innerHTML;
     }
 
-    // Redirect to auth service
-    function redirectToAuth() {
-      const currentUrl = encodeURIComponent(window.location.href);
-      window.location.href = `https://inacio-auth.fly.dev/login?returnTo=${currentUrl}`;
-    }
-
-    // Check auth on load
-    function init() {
-      if (!window.AUTH_TOKEN) {
-        // Show login screen
-        document.getElementById('login-screen').style.display = 'flex';
-        document.getElementById('main-app').style.display = 'none';
-      } else {
-        // Show main app
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('main-app').style.display = 'flex';
-        loadDashboard();
-      }
-    }
-
-    // Initial load
-    init();
-    
-    // Refresh every 30 seconds
-    setInterval(() => {
-      if (window.AUTH_TOKEN) loadDashboard();
-    }, 30000);
+    loadData();
+    setInterval(loadData, 30000);
   </script>
 </body>
 </html>
