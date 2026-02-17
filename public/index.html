@@ -32,6 +32,42 @@
       background: var(--bg-secondary);
       border-right: 1px solid var(--separator);
       padding: 20px 0;
+      flex-shrink: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        position: absolute;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .main {
+        width: 100%;
+      }
+      .dashboard {
+        padding: 16px !important;
+      }
+      .panel {
+        max-width: 100% !important;
+      }
+      .stats-row {
+        flex-wrap: wrap;
+        gap: 12px !important;
+      }
+      .stat-item {
+        min-width: 70px;
+      }
+      .quick-add {
+        flex-direction: column;
+      }
+      .quick-submit {
+        width: 100%;
+      }
     }
     .sidebar-header { padding: 0 20px 20px; }
     .sidebar-title { font-size: 24px; font-weight: 700; }
