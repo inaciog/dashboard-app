@@ -248,6 +248,10 @@
           <span class="nav-name">Reminders</span>
           <span class="nav-badge" id="reminders-count">0</span>
         </a>
+        <a class="nav-item" href="https://classquizzes.fly.dev" id="quizzes-link">
+          <div class="nav-icon" style="background: #5856D6;">📝</div>
+          <span class="nav-name">ClassQuizzes</span>
+        </a>
       </div>
     </aside>
 
@@ -258,6 +262,7 @@
       </div>
       
       <div class="dashboard">
+        <!-- Reminders Panel -->
         <div class="panel">
           <div class="panel-header">
             <div class="panel-title">
@@ -295,6 +300,25 @@
             <div class="loading">Loading...</div>
           </div>
         </div>
+
+        <!-- ClassQuizzes Panel -->
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <div class="panel-icon" style="background: #5856D6;">📝</div>
+              ClassQuizzes
+            </div>
+            <a class="panel-btn" href="https://classquizzes.fly.dev/admin" id="quizzes-open-link">Open App →</a>
+          </div>
+          
+          <div class="panel-content" style="padding: 20px;">
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">Create and manage classroom quizzes with real-time voting.</p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="https://classquizzes.fly.dev/admin" class="panel-btn" id="quizzes-admin-link" style="text-decoration: none; display: inline-block;">Admin Dashboard</a>
+              <a href="https://classquizzes.fly.dev" class="panel-btn" id="quizzes-home-link" style="text-decoration: none; display: inline-block; background: var(--bg-tertiary);">Home</a>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
   </div>
@@ -308,6 +332,10 @@
     if (TOKEN) {
       document.getElementById('reminders-link').href = 'https://reminders-app.fly.dev?token=' + encodeURIComponent(TOKEN);
       document.getElementById('reminders-open-link').href = 'https://reminders-app.fly.dev?token=' + encodeURIComponent(TOKEN);
+      document.getElementById('quizzes-link').href = 'https://classquizzes.fly.dev?token=' + encodeURIComponent(TOKEN);
+      document.getElementById('quizzes-open-link').href = 'https://classquizzes.fly.dev/admin?token=' + encodeURIComponent(TOKEN);
+      document.getElementById('quizzes-admin-link').href = 'https://classquizzes.fly.dev/admin?token=' + encodeURIComponent(TOKEN);
+      document.getElementById('quizzes-home-link').href = 'https://classquizzes.fly.dev?token=' + encodeURIComponent(TOKEN);
     }
     
     // Set date

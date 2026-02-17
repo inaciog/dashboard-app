@@ -22,6 +22,12 @@ const APPS = {
     apiSecret: process.env.REMINDERS_API_SECRET || 'assistant-secret-key',
     icon: '✅',
     color: '#007AFF'
+  },
+  classquizzes: {
+    name: 'ClassQuizzes',
+    url: 'https://classquizzes.fly.dev',
+    icon: '📝',
+    color: '#5856D6'
   }
 };
 
@@ -85,6 +91,19 @@ app.get('/api/overview', async (req, res) => {
   } catch (err) {
     console.error('Failed to fetch reminders:', err);
     overview.apps.reminders = { error: 'Failed to load' };
+  }
+  
+  // Fetch from ClassQuizzes
+  try {
+    overview.apps.classquizzes = {
+      name: 'ClassQuizzes',
+      icon: '📝',
+      color: '#5856D6',
+      url: `${APPS.classquizzes.url}/admin`
+    };
+  } catch (err) {
+    console.error('Failed to fetch quizzes:', err);
+    overview.apps.classquizzes = { error: 'Failed to load' };
   }
   
   res.json(overview);
