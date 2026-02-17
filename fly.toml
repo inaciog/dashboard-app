@@ -1,4 +1,4 @@
-app = "dashboard-app"
+app = "inacio-dashboard"
 primary_region = "iad"
 
 [build]
