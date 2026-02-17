@@ -498,7 +498,9 @@
     // Load dashboard data
     async function loadDashboard() {
       try {
-        const res = await fetch('/api/overview');
+        const res = await fetch('/api/overview', {
+          credentials: 'include'
+        });
         if (!res.ok) throw new Error('Failed to load');
         
         const data = await res.json();
@@ -569,6 +571,7 @@
         const res = await fetch('/api/reminders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ title })
         });
 
@@ -586,7 +589,8 @@
     async function toggleReminder(id, completed) {
       try {
         const res = await fetch(`/api/reminders/${id}/complete`, {
-          method: 'POST'
+          method: 'POST',
+          credentials: 'include'
         });
 
         if (res.ok) {
