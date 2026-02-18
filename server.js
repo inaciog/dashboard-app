@@ -28,6 +28,13 @@ const APPS = {
     url: 'https://classquizzes.fly.dev',
     icon: '📝',
     color: '#5856D6'
+  },
+  seminars: {
+    name: 'Seminars',
+    url: 'https://seminars-app.fly.dev',
+    apiSecret: process.env.SEMINARS_API_SECRET || 'seminars-api-secret-for-dashboard',
+    icon: '🎓',
+    color: '#FF9500'
   }
 };
 
@@ -104,6 +111,33 @@ app.get('/api/overview', async (req, res) => {
   } catch (err) {
     console.error('Failed to fetch quizzes:', err);
     overview.apps.classquizzes = { error: 'Failed to load' };
+  }
+  
+  // Fetch from Seminars
+  try {
+    const fetch = (await import('node-fetch')).default;
+    const seminarsStatsRes = await fetch(
+      `${APPS.seminars.url}/api/external/stats?secret=${APPS.seminars.apiSecret}`
+    );
+    const seminarsStats = await seminarsStatsRes.json();
+    
+    const seminarsUpcomingRes = await fetch(
+      `${APPS.seminars.url}/api/external/upcoming?secret=${APPS.seminars.apiSecret}&limit=5`
+    );
+    const seminarsUpcoming = await seminarsUpcomingRes.json();
+    
+    overview.apps.seminars = {
+      name: 'Seminars',
+      icon: '🎓',
+      color: '#FF9500',
+      upcomingCount: seminarsStats.upcoming_seminars || 0,
+      totalSpeakers: seminarsStats.total_speakers || 0,
+      pendingTasks: seminarsStats.pending_tasks || 0,
+      items: seminarsUpcoming.seminars?.slice(0, 5) || []
+    };
+  } catch (err) {
+    console.error('Failed to fetch seminars:', err);
+    overview.apps.seminars = { error: 'Failed to load' };
   }
   
   res.json(overview);
